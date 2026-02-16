@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 // Set to your GitHub repo name for GitHub Pages deployment
-// Leave empty string for custom domain or root deployment
-const basePath = process.env.GITHUB_ACTIONS ? '/portfolio' : '';
+// Use basePath in production builds, empty for local development
+const isProduction = process.env.NODE_ENV === 'production';
+const basePath = isProduction ? '/portfolio' : '';
 
 const nextConfig: NextConfig = {
   // Expose basePath to client components
