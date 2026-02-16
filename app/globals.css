@@ -1,0 +1,655 @@
+@import "tailwindcss";
+
+/* ============================================
+   CSS CUSTOM PROPERTIES
+   Default: Rose Gold theme (updated dynamically by JS)
+   ============================================ */
+:root {
+  /* Primary accent gradient - Rose Gold default */
+  --accent-start: #E8B4B8;
+  --accent-end: #D4A574;
+
+  /* Gradient shorthand */
+  --gradient-accent: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+
+  /* Backgrounds - Light cream for Rose Gold */
+  --bg-primary: #FDF8F6;
+  --bg-secondary: #FFF5F3;
+  --bg-tertiary: #FFEAE6;
+  --bg-card: rgba(255, 245, 243, 0.9);
+
+  /* Text - Warm browns */
+  --text-primary: #4A3728;
+  --text-secondary: #7D6B5D;
+  --text-muted: #A99585;
+
+  /* Glow effects */
+  --glow-blue: rgba(232, 180, 184, 0.4);
+  --glow-soft: rgba(232, 180, 184, 0.15);
+
+  /* Borders */
+  --border-subtle: rgba(232, 180, 184, 0.3);
+  --border-accent: rgba(232, 180, 184, 0.5);
+
+  /* Shadows */
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 40px var(--glow-soft);
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vw, 8rem);
+  --container-max: 1400px;
+
+  /* Typography - Updated by theme */
+  --font-display: var(--font-cormorant), serif;
+  --font-body: var(--font-quicksand), sans-serif;
+  --font-mono: var(--font-mono), monospace;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+
+  /* Z-index layers */
+  --z-nav: 100;
+  --z-modal: 200;
+
+  /* Card styles - Soft shadow for Rose Gold */
+  --radius-card: 1.25rem;
+  --card-backdrop: none;
+  --card-shadow: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0,0,0,0.05);
+  --card-shadow-interactive: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0,0,0,0.05);
+  --card-border: 1px solid var(--border-subtle);
+  --card-shadow-hover: 0 8px 30px rgba(232, 180, 184, 0.25);
+  --card-hover-transform: translateY(-4px);
+  --card-shadow-active: 0 2px 10px rgba(232, 180, 184, 0.10);
+  --card-active-transform: translateY(0);
+
+  /* Button styles */
+  --btn-border: none;
+  --btn-shadow: 0 4px 20px var(--glow-soft);
+  --btn-shadow-hover: 0 8px 30px var(--glow-blue);
+  --btn-hover-transform: translateY(-2px);
+  --btn-shadow-active: 0 2px 10px var(--glow-soft);
+  --btn-active-transform: translateY(0);
+
+  /* Tech chip styles */
+  --chip-border: 1px solid var(--border-subtle);
+
+  /* Text stroke - disabled by default */
+  --text-stroke-heading: none;
+  --text-stroke-body: none;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-start) var(--bg-secondary);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+/* Light theme adjustments */
+body.theme-light {
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--accent-start), var(--accent-end));
+  border-radius: 4px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.recruiter-view h1 {
+  color: var(--accent-start) !important;
+}
+
+.recruiter-view h2 {
+  font-size: 2rem !important;
+  color: var(--accent-start) !important;
+}
+
+.recruiter-view h3 {
+  font-size: 1.50rem !important;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+::selection {
+  background: var(--accent-start);
+  color: var(--bg-primary);
+}
+
+/* ============================================
+   FOCUS STYLES (Accessibility)
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--accent-start);
+  outline-offset: 4px;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* ============================================
+   BUTTONS - Only style actual interactive elements
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--gradient-accent);
+  color: var(--bg-primary);
+  box-shadow: var(--btn-shadow, 0 4px 20px var(--glow-soft));
+  border: var(--btn-border, none);
+}
+
+.btn-primary:hover {
+  transform: var(--btn-hover-transform, translateY(-2px));
+  box-shadow: var(--btn-shadow-hover, 0 8px 30px var(--glow-blue));
+}
+
+.btn-primary:active {
+  transform: var(--btn-active-transform, translateY(0));
+  box-shadow: var(--btn-shadow-active, 0 2px 10px var(--glow-soft));
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: var(--btn-border, 1px solid var(--border-accent));
+  box-shadow: var(--btn-shadow, none);
+}
+
+.btn-secondary:hover {
+  background: rgba(var(--accent-start), 0.1);
+  border-color: var(--accent-start);
+  transform: var(--btn-hover-transform, translateY(-2px));
+  box-shadow: var(--btn-shadow-hover, none);
+}
+
+.btn-secondary:active {
+  background: rgba(var(--accent-start), 0.15);
+  transform: var(--btn-active-transform, translateY(0));
+  box-shadow: var(--btn-shadow-active, none);
+}
+
+/* ============================================
+   TECH CHIPS - Display only, NOT interactive
+   ============================================ */
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--accent-start);
+  background: color-mix(in srgb, var(--accent-start) 10%, transparent);
+  border: var(--chip-border, 1px solid color-mix(in srgb, var(--accent-start) 20%, transparent));
+  border-radius: calc(var(--radius-card) / 2);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: var(--card-backdrop);
+  border: var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-base);
+}
+
+/* Interactive cards get enhanced shadow */
+a.card,
+button.card,
+.card-interactive,
+a > .card,
+button > .card,
+.card-interactive > .card {
+  box-shadow: var(--card-shadow-interactive, var(--card-shadow));
+  cursor: pointer;
+}
+
+/* Hover state for clickable cards */
+a.card:hover,
+button.card:hover,
+.card-interactive:hover,
+a:hover > .card,
+button:hover > .card,
+.card-interactive:hover > .card {
+  border-color: var(--border-accent);
+  box-shadow: var(--card-shadow-hover, var(--shadow-glow));
+  transform: var(--card-hover-transform, translateY(-4px));
+}
+
+/* Active/pressed state for clickable cards */
+a.card:active,
+button.card:active,
+.card-interactive:active,
+a:active > .card,
+button:active > .card,
+.card-interactive:active > .card {
+  box-shadow: var(--card-shadow-active, var(--card-shadow));
+  transform: var(--card-active-transform, translateY(0));
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+.section {
+  padding: var(--section-padding) 0;
+  position: relative;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 0.1em;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  max-width: 600px;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 0.1em;
+}
+
+/* Filter/pill buttons - common pattern for category filters */
+.filter-btn {
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: var(--btn-border, 1px solid var(--border-subtle));
+  border-radius: var(--radius-card);
+  box-shadow: var(--btn-shadow, none);
+}
+
+.filter-btn:hover {
+  transform: var(--btn-hover-transform, translateY(-2px));
+  box-shadow: var(--btn-shadow-hover, none);
+}
+
+.filter-btn:active {
+  transform: var(--btn-active-transform, translateY(0));
+  box-shadow: var(--btn-shadow-active, none);
+}
+
+/* ============================================
+   BACKGROUND EFFECTS
+   ============================================ */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--bg-secondary) 0%, var(--bg-primary) 70%);
+}
+
+/* ============================================
+   RECRUITER MODE STYLES
+   ============================================ */
+.recruiter-mode {
+  --section-padding: clamp(2rem, 5vw, 4rem);
+}
+
+/* ============================================
+   THEME-SPECIFIC OVERRIDES
+   ============================================ */
+
+/* Cyber theme - add scan lines and neon effects */
+body[data-theme="cyber"] .card {
+  position: relative;
+}
+
+body[data-theme="cyber"] .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ============================================
+   RAINBOW THEME - Playful crayons & colors
+   ============================================ */
+
+/* Rainbow gradient text for section titles - static full spectrum */
+body[data-theme="rainbow"] .section-title,
+body[data-theme="rainbow"] .gradient-text {
+  background: linear-gradient(
+    90deg,
+    #EF4444 0%,
+    #F97316 16%,
+    #EAB308 32%,
+    #22C55E 48%,
+    #3B82F6 64%,
+    #6366F1 80%,
+    #8B5CF6 100%
+  );
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Rainbow tech chips - each gets a different color */
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+1),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+1) {
+  color: #DC2626 !important;
+  background: rgba(220, 38, 38, 0.12) !important;
+  border-color: rgba(220, 38, 38, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+2),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+2) {
+  color: #EA580C !important;
+  background: rgba(234, 88, 12, 0.12) !important;
+  border-color: rgba(234, 88, 12, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+3),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+3) {
+  color: #CA8A04 !important;
+  background: rgba(202, 138, 4, 0.12) !important;
+  border-color: rgba(202, 138, 4, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+4),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+4) {
+  color: #16A34A !important;
+  background: rgba(22, 163, 74, 0.12) !important;
+  border-color: rgba(22, 163, 74, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+5),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+5) {
+  color: #2563EB !important;
+  background: rgba(37, 99, 235, 0.12) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+6),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+6) {
+  color: #4F46E5 !important;
+  background: rgba(79, 70, 229, 0.12) !important;
+  border-color: rgba(79, 70, 229, 0.25) !important;
+}
+
+body[data-theme="rainbow"] .tech-chip:nth-child(7n+7),
+body[data-theme="rainbow"] [class*="text-xs"][class*="px-2"][class*="py-1"][class*="font-mono"]:nth-child(7n+7) {
+  color: #7C3AED !important;
+  background: rgba(124, 58, 237, 0.12) !important;
+  border-color: rgba(124, 58, 237, 0.25) !important;
+}
+
+/* Rainbow card borders and effects */
+body[data-theme="rainbow"] .card {
+  position: relative;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+    linear-gradient(135deg, #EF4444, #F97316, #EAB308, #22C55E, #3B82F6, #8B5CF6) border-box;
+}
+
+body[data-theme="rainbow"] .card:hover {
+  box-shadow:
+    0 4px 20px rgba(239, 68, 68, 0.15),
+    0 4px 20px rgba(59, 130, 246, 0.15);
+}
+
+/* Rainbow buttons */
+body[data-theme="rainbow"] .btn-primary {
+  background: linear-gradient(135deg, #EF4444, #F97316, #EAB308, #22C55E, #3B82F6, #8B5CF6);
+  background-size: 100% 100%;
+}
+
+/* Rainbow nav link underlines - each link gets a different color */
+body[data-theme="rainbow"] nav button:nth-child(1) span[class*="absolute"][class*="bottom-0"],
+body[data-theme="rainbow"] nav button:nth-child(1).active span[class*="absolute"] {
+  background: #EF4444 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(2) span[class*="absolute"][class*="bottom-0"] {
+  background: #F97316 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(3) span[class*="absolute"][class*="bottom-0"] {
+  background: #EAB308 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(4) span[class*="absolute"][class*="bottom-0"] {
+  background: #22C55E !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(5) span[class*="absolute"][class*="bottom-0"] {
+  background: #3B82F6 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(6) span[class*="absolute"][class*="bottom-0"] {
+  background: #6366F1 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(7) span[class*="absolute"][class*="bottom-0"] {
+  background: #8B5CF6 !important;
+}
+
+body[data-theme="rainbow"] nav button:nth-child(8) span[class*="absolute"][class*="bottom-0"] {
+  background: #EC4899 !important;
+}
+
+/* Rainbow recruiter/resume view - section headers with different colors */
+body[data-theme="rainbow"] .recruiter-view section:nth-of-type(1) h2 {
+  color: #EF4444 !important;
+}
+
+body[data-theme="rainbow"] .recruiter-view section:nth-of-type(2) h2 {
+  color: #F97316 !important;
+}
+
+body[data-theme="rainbow"] .recruiter-view section:nth-of-type(3) h2 {
+  color: #EAB308 !important;
+}
+
+body[data-theme="rainbow"] .recruiter-view section:nth-of-type(4) h2 {
+  color: #22C55E !important;
+}
+
+body[data-theme="rainbow"] .recruiter-view section:nth-of-type(5) h2 {
+  color: #3B82F6 !important;
+}
+
+/* Rainbow accent colors in recruiter view */
+body[data-theme="rainbow"] .recruiter-view header p.text-xl {
+  background: linear-gradient(90deg, #EF4444, #F97316, #EAB308, #22C55E, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-theme="rainbow"] .recruiter-view span[class*="text-[var(--accent-start)]"] {
+  color: #EF4444 !important;
+}
+
+/* ============================================
+   TEXT STROKE STYLES (Reusable)
+   Applied via `textStroke` theme property
+   Values: 'none' | 'subtle' | 'bold'
+   ============================================ */
+
+/* Text stroke on headings */
+body.has-text-stroke h1,
+body.has-text-stroke h2,
+body.has-text-stroke h3,
+body.has-text-stroke h4,
+body.has-text-stroke .gradient-text,
+body.has-text-stroke .section-title {
+  -webkit-text-stroke: var(--text-stroke-heading);
+  paint-order: stroke fill;
+}
+
+/* Text stroke on body text */
+body.has-text-stroke p,
+body.has-text-stroke span,
+body.has-text-stroke li,
+body.has-text-stroke nav button {
+  -webkit-text-stroke: var(--text-stroke-body);
+  paint-order: stroke fill;
+}
+
+/* Text stroke on buttons */
+body.has-text-stroke .btn-primary,
+body.has-text-stroke .btn-secondary {
+  -webkit-text-stroke: var(--text-stroke-body);
+  paint-order: stroke fill;
+}
+
+/* Text stroke on tech chips */
+body.has-text-stroke .tech-chip {
+  -webkit-text-stroke: var(--text-stroke-body);
+  paint-order: stroke fill;
+}
+
+/* ============================================
+   AVATAR GLOW (Education Section)
+   ============================================ */
+.avatar-glow-wrapper {
+  position: relative;
+}
+
+/* Dark mode: soft radial glow behind avatar */
+body.theme-dark .avatar-glow-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--accent-start) 15%, transparent) 0%,
+    color-mix(in srgb, var(--accent-start) 15%, transparent) 0%,
+    transparent 40%
+  );
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Dark mode: boost brightness/contrast on avatar image */
+body.theme-dark .avatar-grad-img {
+  filter: brightness(1.15) contrast(1.1);
+}
+

@@ -1,0 +1,42 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#0a0a0f"/>
+  
+  <!-- Decorative particles -->
+  <circle cx="200" cy="150" r="4" fill="#e8e8e8" opacity="0.6"/>
+  <circle cx="350" cy="200" r="3" fill="#c4d4e0" opacity="0.5"/>
+  <circle cx="500" cy="120" r="5" fill="#a8c0d8" opacity="0.7"/>
+  <circle cx="650" cy="180" r="3" fill="#e8e8e8" opacity="0.4"/>
+  <circle cx="800" cy="140" r="4" fill="#c4d4e0" opacity="0.6"/>
+  <circle cx="950" cy="200" r="3" fill="#a8c0d8" opacity="0.5"/>
+  <circle cx="1050" cy="150" r="5" fill="#e8e8e8" opacity="0.7"/>
+  
+  <circle cx="150" cy="350" r="3" fill="#c4d4e0" opacity="0.5"/>
+  <circle cx="300" cy="400" r="4" fill="#e8e8e8" opacity="0.6"/>
+  <circle cx="450" cy="320" r="5" fill="#a8c0d8" opacity="0.7"/>
+  <circle cx="600" cy="380" r="3" fill="#c4d4e0" opacity="0.4"/>
+  <circle cx="750" cy="340" r="4" fill="#e8e8e8" opacity="0.6"/>
+  <circle cx="900" cy="400" r="3" fill="#a8c0d8" opacity="0.5"/>
+  <circle cx="1000" cy="350" r="5" fill="#c4d4e0" opacity="0.7"/>
+  
+  <circle cx="180" cy="550" r="4" fill="#a8c0d8" opacity="0.6"/>
+  <circle cx="320" cy="600" r="3" fill="#e8e8e8" opacity="0.5"/>
+  <circle cx="480" cy="520" r="5" fill="#c4d4e0" opacity="0.7"/>
+  <circle cx="620" cy="580" r="3" fill="#a8c0d8" opacity="0.4"/>
+  <circle cx="780" cy="540" r="4" fill="#e8e8e8" opacity="0.6"/>
+  <circle cx="920" cy="600" r="3" fill="#c4d4e0" opacity="0.5"/>
+  <circle cx="1080" cy="550" r="5" fill="#a8c0d8" opacity="0.7"/>
+  
+  <!-- Connection lines -->
+  <line x1="200" y1="150" x2="350" y2="200" stroke="#e8e8e8" stroke-width="0.5" opacity="0.2"/>
+  <line x1="350" y1="200" x2="500" y2="120" stroke="#c4d4e0" stroke-width="0.5" opacity="0.2"/>
+  <line x1="500" y1="120" x2="650" y2="180" stroke="#a8c0d8" stroke-width="0.5" opacity="0.2"/>
+  <line x1="650" y1="180" x2="800" y2="140" stroke="#e8e8e8" stroke-width="0.5" opacity="0.2"/>
+  
+  <line x1="300" y1="400" x2="450" y2="320" stroke="#c4d4e0" stroke-width="0.5" opacity="0.2"/>
+  <line x1="450" y1="320" x2="600" y2="380" stroke="#a8c0d8" stroke-width="0.5" opacity="0.2"/>
+  <line x1="600" y1="380" x2="750" y2="340" stroke="#e8e8e8" stroke-width="0.5" opacity="0.2"/>
+  
+  <!-- Title text -->
+  <text x="600" y="400" font-family="system-ui, sans-serif" font-size="48" font-weight="300" fill="white" text-anchor="middle" opacity="0.9">Vibe Mixer</text>
+  <text x="600" y="450" font-family="system-ui, sans-serif" font-size="18" fill="white" text-anchor="middle" opacity="0.5">Interactive Particle Playground</text>
+</svg>

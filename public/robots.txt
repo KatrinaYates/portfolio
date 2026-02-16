@@ -1,0 +1,8 @@
+# Robots.txt for Katrina Yates Portfolio
+# https://katrinayates.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://katrinayates.com/sitemap.xml
