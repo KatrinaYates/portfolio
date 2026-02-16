@@ -1,8 +1,20 @@
 import type { NextConfig } from "next";
 
+// Set to your GitHub repo name for GitHub Pages deployment
+// Leave empty string for custom domain or root deployment
+const basePath = process.env.GITHUB_ACTIONS ? '/portfolio' : '';
+
 const nextConfig: NextConfig = {
+  // Expose basePath to client components
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   // Enable static export for GitHub Pages
   output: 'export',
+
+  // Base path for GitHub Pages (repo name)
+  basePath,
+  assetPrefix: basePath,
 
   // Image optimization - must be unoptimized for static export
   images: {

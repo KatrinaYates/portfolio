@@ -123,7 +123,7 @@ export default function Contact() {
               <span>LinkedIn</span>
             </a>
             <a
-              href="/KatrinaYatesResume-External.pdf"
+              href={`${process.env.NEXT_PUBLIC_BASE_PATH||''}/KatrinaYatesResume-External.pdf`}
               download="KatrinaYatesResume.pdf"
               className="btn btn-primary"
               aria-label="Download resume as PDF"

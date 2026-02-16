@@ -66,7 +66,7 @@ export default function EducationSection() {
             <div className="avatar-glow-wrapper relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/avatar/avatar-grad.png"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/avatar/avatar-grad.png`}
                 alt=""
                 className="avatar-grad-img h-32 md:h-40 w-auto object-contain relative z-10"
                 aria-hidden="true"

@@ -11,6 +11,9 @@ interface PngDecorItemProps {
   left: number;
 }
 
+// Helper to get asset path with basePath prefix
+const getAssetPath = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${path}`;
+
 export default function PngDecorItem({
   src,
   size,
@@ -32,7 +35,7 @@ export default function PngDecorItem({
       }}
     >
       <Image
-        src={src}
+        src={getAssetPath(src)}
         alt=""
         fill
         sizes={`${size}px`}

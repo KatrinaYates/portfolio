@@ -98,7 +98,7 @@ export default function ModeToggle() {
 
       {/* Resume Download Button */}
       <a
-        href="/KatrinaYatesResume-External.pdf"
+        href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/KatrinaYatesResume-External.pdf`}
         download="KatrinaYatesResume.pdf"
         className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-start)] hover:text-[var(--accent-start)] transition-colors"
         aria-label="Download resume as PDF"

@@ -21,6 +21,9 @@ const ImageSlider = dynamic(() => import('./ImageSlider'), {
   ssr: false,
 });
 
+// Helper to get asset path with basePath prefix
+const getAssetPath = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${path}`;
+
 // Helper to check if item is powered by Aloha (for badges and filtering)
 const isPoweredByAloha = (item: WorkShowcaseItem): boolean => {
   return item.poweredBy === 'aloha' || (item.platformRole === 'implementation' && item.platform === 'aloha');
@@ -186,7 +189,7 @@ export default function WorkShowcase() {
                 <div className="aspect-video -mx-6 -mt-6 mb-4 overflow-hidden rounded-t-[inherit]">
                   {!item.featuredImage && item.images[0]?.type === 'video' ? (
                     <video
-                      src={item.images[0].src}
+                      src={getAssetPath(item.images[0].src)}
                       autoPlay
                       loop
                       muted
@@ -195,7 +198,7 @@ export default function WorkShowcase() {
                     />
                   ) : (
                     <img
-                      src={item.featuredImage || item.images[0]?.src}
+                      src={getAssetPath(item.featuredImage || item.images[0]?.src || '')}
                       alt={item.title}
                       loading="lazy"
                       className="w-full h-full object-cover"

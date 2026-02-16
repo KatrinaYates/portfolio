@@ -109,8 +109,8 @@ function IntroVideoPlayer() {
       <div className="aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-2xl shadow-[var(--accent-start)]/20">
         <video
           ref={videoRef}
-          src={introVideo.src}
-          poster={introVideo.poster || undefined}
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${introVideo.src}`}
+          poster={introVideo.poster ? `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${introVideo.poster}` : undefined}
           className="w-full h-full object-cover"
           autoPlay
           loop

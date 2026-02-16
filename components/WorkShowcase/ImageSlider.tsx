@@ -15,6 +15,9 @@ interface ImageSliderProps {
   title: string;
 }
 
+// Helper to get asset path with basePath prefix
+const getAssetPath = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${path}`;
+
 // Renders a single media item (image or video)
 function MediaItem({ item }: { item: SlideMedia }) {
   if (item.type === 'video') {
@@ -22,8 +25,8 @@ function MediaItem({ item }: { item: SlideMedia }) {
     if (item.autoplay) {
       return (
         <video
-          src={item.src}
-          poster={item.poster}
+          src={getAssetPath(item.src)}
+          poster={item.poster ? getAssetPath(item.poster) : undefined}
           autoPlay
           loop
           muted
@@ -38,8 +41,8 @@ function MediaItem({ item }: { item: SlideMedia }) {
     // Standard video with controls
     return (
       <video
-        src={item.src}
-        poster={item.poster}
+        src={getAssetPath(item.src)}
+        poster={item.poster ? getAssetPath(item.poster) : undefined}
         controls
         playsInline
         preload="metadata"
@@ -51,7 +54,7 @@ function MediaItem({ item }: { item: SlideMedia }) {
 
   return (
     <img
-      src={item.src}
+      src={getAssetPath(item.src)}
       alt={item.alt}
       loading="lazy"
       className="w-full h-full object-cover"
