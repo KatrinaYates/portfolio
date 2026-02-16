@@ -248,7 +248,7 @@ export default function AboutMe() {
             {aboutContent.funFacts.map((fact, index) => (
               <div
                 key={index}
-                className="fun-fact group relative p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-start)]/50 transition-all duration-300"
+                className="fun-fact group relative z-[2] p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-start)]/50 transition-all duration-300"
                 style={{ borderRadius: 'var(--radius-card)' }}
               >
                 <span className="absolute -top-3 -right-2 text-2xl transform group-hover:scale-125 transition-transform">

@@ -62,7 +62,7 @@ export default function EducationSection() {
         {/* Section Header with Avatar */}
         <div className="text-center mb-12 relative">
           {/* Avatar walking towards title */}
-          <div className="absolute left-1/2 -translate-x-[150px] md:-translate-x-[208px] top-0 bottom-0 flex items-center">
+          <div className="absolute left-1/2 -translate-x-[150px] md:-translate-x-[212px] top-0 bottom-0 flex items-center">
             <div className="avatar-glow-wrapper relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

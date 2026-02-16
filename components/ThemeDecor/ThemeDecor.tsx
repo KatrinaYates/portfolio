@@ -179,11 +179,17 @@ export default function ThemeDecor() {
     setMounted(true);
 
     const updateHeight = () => {
-      const height = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight
-      );
-      setPageHeight(height);
+      // Find the footer to get the actual content end point
+      const footer=document.querySelector('footer');
+      if(footer) {
+        const footerRect=footer.getBoundingClientRect();
+        const scrollTop=window.scrollY||document.documentElement.scrollTop;
+        // Height = footer bottom position (accounting for scroll)
+        setPageHeight(footerRect.bottom+scrollTop);
+      } else {
+        // Fallback: use body's offset height (doesn't include absolute elements)
+        setPageHeight(document.body.offsetHeight);
+      }
     };
 
     updateHeight();
@@ -205,7 +211,7 @@ export default function ThemeDecor() {
 
   return (
     <div
-      className="absolute top-0 left-0 w-full pointer-events-none overflow-hidden"
+      className="hidden md:block absolute top-0 left-0 w-full pointer-events-none overflow-hidden"
       style={{ height: pageHeight, zIndex: config.zIndex }}
       aria-hidden="true"
     >

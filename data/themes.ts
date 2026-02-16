@@ -173,7 +173,7 @@ const midnight: Theme = {
   textMuted: '#938DA8',
   textOnAccent: '#0a0811', // Dark for contrast on gold accent
   borderSubtle: 'rgba(214, 176, 107, 0.18)',
-  fontDisplay: 'var(--font-cinzel), serif',
+  fontDisplay: 'var(--font-playfair), serif',
   fontBody: 'var(--font-poppins), sans-serif',
   isDark: true,
   borderRadius: '0.95rem',

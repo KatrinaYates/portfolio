@@ -55,8 +55,8 @@
   /* Card styles - Soft shadow for Rose Gold */
   --radius-card: 1.25rem;
   --card-backdrop: none;
-  --card-shadow: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0,0,0,0.05);
-  --card-shadow-interactive: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0,0,0,0.05);
+  --card-shadow: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0, 0, 0, 0.05);
+    --card-shadow-interactive: 0 4px 20px rgba(232, 180, 184, 0.15), 0 1px 3px rgba(0, 0, 0, 0.05);
   --card-border: 1px solid var(--border-subtle);
   --card-shadow-hover: 0 8px 30px rgba(232, 180, 184, 0.25);
   --card-hover-transform: translateY(-4px);
@@ -125,7 +125,12 @@ body.theme-light {
 /* ============================================
    TYPOGRAPHY
    ============================================ */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.2;
@@ -191,6 +196,8 @@ a {
    BUTTONS - Only style actual interactive elements
    ============================================ */
 .btn {
+  position: relative;
+    z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -247,6 +254,8 @@ a {
    TECH CHIPS - Display only, NOT interactive
    ============================================ */
 .tech-chip {
+  position: relative;
+    z-index: 2;
   display: inline-flex;
   align-items: center;
   padding: 0.375rem 0.875rem;
@@ -263,6 +272,8 @@ a {
    CARDS
    ============================================ */
 .card {
+  position: relative;
+    z-index: 2;
   background: var(--bg-card);
   backdrop-filter: var(--card-backdrop);
   border: var(--card-border);
@@ -315,6 +326,8 @@ button:active > .card,
 }
 
 .section-title {
+  position: relative;
+    z-index: 2;
   margin-bottom: 1rem;
   background: var(--gradient-accent);
   -webkit-background-clip: text;
@@ -343,6 +356,7 @@ button:active > .card,
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -357,6 +371,8 @@ button:active > .card,
    UTILITY CLASSES
    ============================================ */
 .gradient-text {
+  position: relative;
+    z-index: 2;
   background: var(--gradient-accent);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -410,13 +426,11 @@ body[data-theme="cyber"] .card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
-  );
+  background: repeating-linear-gradient(0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px);
   pointer-events: none;
   border-radius: inherit;
 }
@@ -428,16 +442,14 @@ body[data-theme="cyber"] .card::after {
 /* Rainbow gradient text for section titles - static full spectrum */
 body[data-theme="rainbow"] .section-title,
 body[data-theme="rainbow"] .gradient-text {
-  background: linear-gradient(
-    90deg,
-    #EF4444 0%,
-    #F97316 16%,
-    #EAB308 32%,
-    #22C55E 48%,
-    #3B82F6 64%,
-    #6366F1 80%,
-    #8B5CF6 100%
-  );
+  background: linear-gradient(90deg,
+        #EF4444 0%,
+        #F97316 16%,
+        #EAB308 32%,
+        #22C55E 48%,
+        #3B82F6 64%,
+        #6366F1 80%,
+      #8B5CF6 100%);
   background-size: 100% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -637,19 +649,10 @@ body.theme-dark .avatar-glow-wrapper::before {
   transform: translate(-50%, -50%);
   width: 140%;
   height: 140%;
-  background: radial-gradient(
-    ellipse at center,
-    color-mix(in srgb, var(--accent-start) 15%, transparent) 0%,
-    color-mix(in srgb, var(--accent-start) 15%, transparent) 0%,
-    transparent 40%
-  );
+  background: radial-gradient(ellipse at center,
+        color-mix(in srgb, var(--accent-start) 0%, transparent) 0%,
+        color-mix(in srgb, var(--accent-start) 15%, transparent) 0%, transparent 50%);
   border-radius: 50%;
   z-index: 0;
   pointer-events: none;
 }
-
-/* Dark mode: boost brightness/contrast on avatar image */
-body.theme-dark .avatar-grad-img {
-  filter: brightness(1.15) contrast(1.1);
-}
-

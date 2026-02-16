@@ -6,7 +6,6 @@ import {
   Quicksand,
   Poppins,
   Nunito,
-  Cinzel,
   Fraunces,
   Playpen_Sans,
   Space_Grotesk,
@@ -32,12 +31,6 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-cormorant",
   weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -180,7 +173,6 @@ export default function RootLayout({
         scroll-smooth
         ${playfair.variable}
         ${cormorant.variable}
-        ${cinzel.variable}
         ${quicksand.variable}
         ${poppins.variable}
         ${nunito.variable}
