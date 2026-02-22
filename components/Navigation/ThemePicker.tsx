@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo, KeyboardEvent } from 'react';
 import { useTheme, ThemeId } from '@/hooks/useTheme';
-import { themes, Theme, getThemesByCategory } from '@/data/themes';
+import { themes, Theme, getThemesByLightDark } from '@/data/themes';
 
 // Theme option component for reuse
 function ThemeOption({
@@ -71,21 +71,17 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
 
-  // Get themes organized by category
-  const categorizedThemes = useMemo(() => getThemesByCategory(), []);
+  // Get themes organized by light/dark
+  const themesByMode = useMemo(() => getThemesByLightDark(), []);
 
   // Build a flat ordered list for keyboard navigation
-  // Order: Pro Light, Pro Dark, Creative Light, Creative Dark (column by column for intuitive nav)
+  // Order: Light themes first (left column), then dark themes (right column)
   const flatThemeOrder = useMemo(() => {
     const order: Theme[] = [];
-    // Professional column first (for left side)
-    categorizedThemes.professional.light.forEach(t => order.push(t));
-    categorizedThemes.professional.dark.forEach(t => order.push(t));
-    // Creative column second (for right side)
-    categorizedThemes.creative.light.forEach(t => order.push(t));
-    categorizedThemes.creative.dark.forEach(t => order.push(t));
+    themesByMode.light.forEach(t => order.push(t));
+    themesByMode.dark.forEach(t => order.push(t));
     return order;
-  }, [categorizedThemes]);
+  }, [themesByMode]);
 
   // Map theme ID to flat index
   const themeIdToIndex = useMemo(() => {
@@ -95,7 +91,7 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
   }, [flatThemeOrder]);
 
   // Calculate column boundaries for keyboard navigation
-  const proColumnLength = categorizedThemes.professional.light.length + categorizedThemes.professional.dark.length;
+  const lightColumnLength = themesByMode.light.length;
 
   // Hydration safety: prevent SSR/client mismatch
   useEffect(() => {
@@ -157,20 +153,20 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
     if (!isOpen) return;
 
     const totalThemes = flatThemeOrder.length;
-    const creativeColumnLength = totalThemes - proColumnLength;
+    const darkColumnLength = totalThemes - lightColumnLength;
 
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
         setFocusedIndex(prev => {
           // Stay within current column
-          const inProColumn = prev < proColumnLength;
-          if (inProColumn) {
-            // In professional column
+          const inLightColumn = prev < lightColumnLength;
+          if (inLightColumn) {
+            // In light column
             const nextInColumn = prev + 1;
-            return nextInColumn < proColumnLength ? nextInColumn : prev;
+            return nextInColumn < lightColumnLength ? nextInColumn : prev;
           } else {
-            // In creative column
+            // In dark column
             const nextInColumn = prev + 1;
             return nextInColumn < totalThemes ? nextInColumn : prev;
           }
@@ -179,22 +175,22 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
       case 'ArrowUp':
         event.preventDefault();
         setFocusedIndex(prev => {
-          const inProColumn = prev < proColumnLength;
-          if (inProColumn) {
+          const inLightColumn = prev < lightColumnLength;
+          if (inLightColumn) {
             return prev > 0 ? prev - 1 : prev;
           } else {
-            return prev > proColumnLength ? prev - 1 : prev;
+            return prev > lightColumnLength ? prev - 1 : prev;
           }
         });
         break;
       case 'ArrowRight':
         event.preventDefault();
         setFocusedIndex(prev => {
-          if (prev < proColumnLength) {
-            // Move from professional to creative column
-            const posInProColumn = prev;
-            const targetInCreative = proColumnLength + Math.min(posInProColumn, creativeColumnLength - 1);
-            return targetInCreative;
+          if (prev < lightColumnLength) {
+            // Move from light to dark column
+            const posInLightColumn = prev;
+            const targetInDark = lightColumnLength + Math.min(posInLightColumn, darkColumnLength - 1);
+            return targetInDark;
           }
           return prev;
         });
@@ -202,11 +198,11 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
       case 'ArrowLeft':
         event.preventDefault();
         setFocusedIndex(prev => {
-          if (prev >= proColumnLength) {
-            // Move from creative to professional column
-            const posInCreativeColumn = prev - proColumnLength;
-            const targetInPro = Math.min(posInCreativeColumn, proColumnLength - 1);
-            return targetInPro;
+          if (prev >= lightColumnLength) {
+            // Move from dark to light column
+            const posInDarkColumn = prev - lightColumnLength;
+            const targetInLight = Math.min(posInDarkColumn, lightColumnLength - 1);
+            return targetInLight;
           }
           return prev;
         });
@@ -230,7 +226,7 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
         setIsOpen(false);
         break;
     }
-  }, [isOpen, focusedIndex, handleSelect, flatThemeOrder, proColumnLength]);
+  }, [isOpen, focusedIndex, handleSelect, flatThemeOrder, lightColumnLength]);
 
   // Scroll focused option into view
   useEffect(() => {
@@ -248,27 +244,6 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
 
   const currentTheme = themes.find((t) => t.id === themeId) || themes[0];
   const listboxId = 'theme-listbox';
-
-  // Helper to render a section of themes
-  const renderThemeSection = (sectionThemes: Theme[], label: string) => (
-    <div className="mb-1 sm:mb-2">
-      <p className="hidden sm:block px-2 py-1 text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
-        {label}
-      </p>
-      {sectionThemes.map((t) => {
-        const index = themeIdToIndex.get(t.id) ?? 0;
-        return (
-          <ThemeOption
-            key={t.id}
-            theme={t}
-            isSelected={themeId === t.id}
-            index={index}
-            onSelect={handleSelect}
-          />
-        );
-      })}
-    </div>
-  );
 
   return (
     <div ref={dropdownRef} className="relative" onKeyDown={handleKeyDown}>
@@ -308,22 +283,42 @@ export default function ThemePicker({ onOpen, forceClose }: ThemePickerProps) {
         <div className="container py-4 sm:p-3">
           {/* Responsive grid - single column on mobile, two columns on larger screens */}
           <div className="flex flex-col gap-1 sm:grid sm:grid-cols-2 sm:gap-4">
-            {/* Professional Column */}
+            {/* Light Column */}
             <div>
               <p className="px-4 sm:px-2 py-2 text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider sm:normal-case sm:tracking-normal sm:text-[var(--text-secondary)] sm:border-b sm:border-[var(--border-subtle)] mb-1 sm:mb-2">
-                Professional
+                ☀️ Light
               </p>
-              {renderThemeSection(categorizedThemes.professional.light, 'Light')}
-              {renderThemeSection(categorizedThemes.professional.dark, 'Dark')}
+              {themesByMode.light.map((t) => {
+                const index = themeIdToIndex.get(t.id) ?? 0;
+                return (
+                  <ThemeOption
+                    key={t.id}
+                    theme={t}
+                    isSelected={themeId === t.id}
+                    index={index}
+                    onSelect={handleSelect}
+                  />
+                );
+              })}
             </div>
 
-            {/* Creative Column */}
+            {/* Dark Column */}
             <div className="mt-2 sm:mt-0">
               <p className="px-4 sm:px-2 py-2 text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider sm:normal-case sm:tracking-normal sm:text-[var(--text-secondary)] sm:border-b sm:border-[var(--border-subtle)] mb-1 sm:mb-2">
-                Creative
+                🌙 Dark
               </p>
-              {renderThemeSection(categorizedThemes.creative.light, 'Light')}
-              {renderThemeSection(categorizedThemes.creative.dark, 'Dark')}
+              {themesByMode.dark.map((t) => {
+                const index = themeIdToIndex.get(t.id) ?? 0;
+                return (
+                  <ThemeOption
+                    key={t.id}
+                    theme={t}
+                    isSelected={themeId === t.id}
+                    index={index}
+                    onSelect={handleSelect}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

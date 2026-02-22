@@ -417,24 +417,6 @@ button:active > .card,
    THEME-SPECIFIC OVERRIDES
    ============================================ */
 
-/* Cyber theme - add scan lines and neon effects */
-body[data-theme="cyber"] .card {
-  position: relative;
-}
-
-body[data-theme="cyber"] .card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.1) 2px,
-      rgba(0, 0, 0, 0.1) 4px);
-  pointer-events: none;
-  border-radius: inherit;
-}
-
 /* ============================================
    RAINBOW THEME - Playful crayons & colors
    ============================================ */
@@ -644,11 +626,11 @@ body.has-text-stroke .tech-chip {
 body.theme-dark .avatar-glow-wrapper::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 140%;
-  height: 140%;
+  height: 10%;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   background: radial-gradient(ellipse at center,
         color-mix(in srgb, var(--accent-start) 0%, transparent) 0%,
         color-mix(in srgb, var(--accent-start) 15%, transparent) 0%, transparent 50%);

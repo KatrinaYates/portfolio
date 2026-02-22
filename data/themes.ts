@@ -13,8 +13,6 @@
 export type ThemeId =
   | 'newspaper'
   | 'warm'
-  | 'forest'
-  | 'cyber'
   | 'midnight'
   | 'rainbow'
   | 'southern'
@@ -54,7 +52,14 @@ export interface Theme {
   // Optional style effects
   textStroke?: TextStroke; // Adds outlined text effect (default: 'none')
   shadowColor?: string; // Color for comic-style shadows (default: '#000000')
+  // Optional hero avatar override
+  heroAvatar?: string; // Path to hero avatar image (default: /avatar/avatar-wave.png)
 }
+
+/**
+ * Default hero avatar used when theme doesn't specify one
+ */
+export const DEFAULT_HERO_AVATAR = '/avatar/avatar-wave.png';
 
 // ============================================
 // PROFESSIONAL THEMES
@@ -106,54 +111,7 @@ const warm: Theme = {
   isDark: false,
   borderRadius: '0.5rem',
   cardStyle: 'flat',
-};
-
-const forest: Theme = {
-  id: 'forest',
-  name: 'Forest',
-  description: 'Mossy, earthy, calm depth',
-  emoji: '🌿',
-  category: 'professional',
-  accentStart: '#34D399',
-  accentEnd: '#059669',
-  bgPrimary: '#022C22',
-  bgSecondary: '#064E3B',
-  bgTertiary: '#0B3F32',
-  bgCard: 'rgba(11, 63, 50, 0.62)',
-  textPrimary: '#ECFDF5',
-  textSecondary: '#B7F7D1',
-  textMuted: '#7EE7B5',
-  textOnAccent: '#022C22',
-  borderSubtle: 'rgba(183, 247, 209, 0.14)',
-  fontDisplay: 'var(--font-fraunces), serif',
-  fontBody: 'var(--font-nunito), sans-serif',
-  isDark: true,
-  borderRadius: '1.6rem',
-  cardStyle: 'flat',
-};
-
-const cyber: Theme = {
-  id: 'cyber',
-  name: 'Cyber Neon',
-  description: 'Hyperfuture, glow edges, synth energy',
-  emoji: '🧬',
-  category: 'professional',
-  accentStart: '#FF4DDE',
-  accentEnd: '#22D3EE',
-  bgPrimary: '#0F0720',
-  bgSecondary: '#1A0B2E',
-  bgTertiary: '#261040',
-  bgCard: 'rgba(26, 6, 64, 0.70)',
-  textPrimary: '#F5F3FF',
-  textSecondary: '#D8CCFF',
-  textMuted: '#A78BFA',
-  textOnAccent: '#0F0720',
-  borderSubtle: 'rgba(255, 77, 222, 0.22)',
-  fontDisplay: 'var(--font-space-grotesk), sans-serif',
-  fontBody: 'var(--font-space-grotesk), sans-serif',
-  isDark: true,
-  borderRadius: '0',
-  cardStyle: 'neon',
+  heroAvatar: '/avatar/avatar-flower.png',
 };
 
 const midnight: Theme = {
@@ -178,6 +136,7 @@ const midnight: Theme = {
   isDark: true,
   borderRadius: '0.95rem',
   cardStyle: 'glow',
+  heroAvatar: '/avatar/avatar-midnight.png',
 };
 
 // ============================================
@@ -206,11 +165,8 @@ const rainbow: Theme = {
   isDark: false,
   borderRadius: '1.5rem',
   cardStyle: 'flat',
+  heroAvatar: '/avatar/avatar-rainbow.png',
 };
-
-// ============================================
-// LIFESTYLE / PERSONALITY THEMES
-// ============================================
 
 const southern: Theme = {
   id: 'southern',
@@ -218,23 +174,27 @@ const southern: Theme = {
   description: 'Warm, grounded, heritage feel',
   emoji: '🌾',
   category: 'creative',
-  accentStart: '#5A6E82', // Darkened from #879BAF for WCAG AA (4.5:1)
+  accentStart: '#5A6E82',
   accentEnd: '#5A6E82',
   bgPrimary: '#F4E3DF',
   bgSecondary: '#F9F3F1',
-  bgTertiary: '#5A6E82', // Updated to match new accent
+  bgTertiary: '#5A6E82',
   bgCard: 'rgba(255,255,255,0.96)',
   textPrimary: '#352926',
   textSecondary: '#6A5854',
-  textMuted: '#6A5A56', // Darkened from #9A8A86 for WCAG AA (4.5:1)
+  textMuted: '#6A5A56',
   textOnAccent: '#FFFFFF',
-  borderSubtle: 'rgba(90,110,130,0.3)', // Updated to match new accent
+  borderSubtle: 'rgba(90,110,130,0.3)',
   fontDisplay: 'var(--font-shadows-into-light-two), sans-serif',
   fontBody: 'var(--font-nunito), sans-serif',
   isDark: false,
   borderRadius: '0.75rem',
   cardStyle: 'glow',
 };
+
+// ============================================
+// LIFESTYLE / PERSONALITY THEMES
+// ============================================
 
 const gremlin: Theme = {
   id: 'gremlin',
@@ -258,6 +218,7 @@ const gremlin: Theme = {
   isDark: true,
   borderRadius: '0.25rem',
   cardStyle: 'comic',
+  heroAvatar: '/avatar/avatar-grimlin.png',
 };
 
 const daisy: Theme = {
@@ -282,6 +243,7 @@ const daisy: Theme = {
   isDark: true,
   borderRadius: '1.6rem',
   cardStyle: 'glow',
+  heroAvatar: '/avatar/avatar-flower.png',
 };
 
 const emo: Theme = {
@@ -306,6 +268,7 @@ const emo: Theme = {
   isDark: true,
   borderRadius: '0',
   cardStyle: 'neon',
+  heroAvatar: '/avatar/avatar-emo.png',
 };
 
 // ============================================
@@ -315,8 +278,6 @@ const emo: Theme = {
 export const themes: Theme[] = [
   newspaper,
   warm,
-  forest,
-  cyber,
   midnight,
   rainbow,
   southern,
@@ -326,18 +287,12 @@ export const themes: Theme[] = [
 ];
 
 /**
- * Get themes organized by category and light/dark mode
+ * Get themes organized by light/dark mode
  */
-export function getThemesByCategory() {
+export function getThemesByLightDark() {
   return {
-    professional: {
-      light: themes.filter(t => t.category === 'professional' && !t.isDark),
-      dark: themes.filter(t => t.category === 'professional' && t.isDark),
-    },
-    creative: {
-      light: themes.filter(t => t.category === 'creative' && !t.isDark),
-      dark: themes.filter(t => t.category === 'creative' && t.isDark),
-    },
+    light: themes.filter(t => !t.isDark),
+    dark: themes.filter(t => t.isDark),
   };
 }
 

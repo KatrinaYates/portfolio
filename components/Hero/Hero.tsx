@@ -5,6 +5,8 @@ import { gsap } from '@/lib/gsap';
 import { personalInfo } from '@/data/content';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useViewMode } from '@/hooks/useViewMode';
+import {useTheme, themes} from '@/hooks/useTheme';
+import {DEFAULT_HERO_AVATAR} from '@/data/themes';
 
 // Typing effect component
 function TypeWriter({ text, delay = 0 }: { text: string; delay?: number }) {
@@ -44,11 +46,17 @@ function TypeWriter({ text, delay = 0 }: { text: string; delay?: number }) {
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
+  const avatarRef=useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const { isRecruiterMode } = useViewMode();
+  const {themeId}=useTheme();
   const [mounted, setMounted] = useState(false);
+
+  // Get avatar from theme config, fallback to default
+  const currentTheme=themes.find(t => t.id===themeId);
+  const avatarSrc=`${process.env.NEXT_PUBLIC_BASE_PATH||''}${currentTheme?.heroAvatar||DEFAULT_HERO_AVATAR}`;
 
   // Hydration safety: prevent SSR/client mismatch
   useEffect(() => {
@@ -67,6 +75,12 @@ export default function Hero() {
         { opacity: 0, y: 60 },
         { opacity: 1, y: 0, duration: 1.2, delay: 0.5 }
       )
+        .fromTo(
+          avatarRef.current,
+          {opacity: 0, scale: 0.8},
+          {opacity: 1, scale: 1, duration: 0.8},
+          '-=0.8'
+        )
         .fromTo(
           subtitleRef.current,
           { opacity: 0, y: 40 },
@@ -127,6 +141,7 @@ export default function Hero() {
       {/* Content */}
       <div className="container relative z-10 text-center px-4">
         {/* Small intro with typing effect */}
+        <div className="relative">
         <p className="text-sm uppercase tracking-[0.3em] text-[var(--accent-start)] mb-6 font-mono h-6">
           {mounted && <TypeWriter text="UX Engineering" delay={200} />}
         </p>
@@ -138,7 +153,24 @@ export default function Hero() {
           style={{ opacity: prefersReducedMotion ? 1 : 0 }}
         >
           <span className="gradient-text">{personalInfo.tagline}</span>
-        </h1>
+          </h1>
+          <div
+            ref={avatarRef}
+            className="absolute left-1/2 -translate-x-[-85px] md:-translate-x-[-173px] bottom-0 flex items-center"
+            style={{opacity: prefersReducedMotion? 1:0}}
+          >
+            <div className="avatar-glow-wrapper relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={avatarSrc}
+                alt=""
+                className="avatar-grad-img h-32 md:h-40 w-auto object-contain relative z-10"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+
+        </div>
 
         {/* Subtitle */}
         <p

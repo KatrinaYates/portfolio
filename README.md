@@ -52,12 +52,11 @@ portfolio/
 
 ## Theming
 
-The site includes **12 themes** organized into Professional and Creative categories:
+The site includes **8 themes** organized into Professional and Creative categories:
 
 | Professional | Creative |
 |--------------|----------|
-| The Gazette, Retro Warm, Forest | Rainbow, Southern Roots |
-| Cyber Neon, Midnight Luxe | Code Gremlin, Daisy Dusk, Emo Phase |
+| The Gazette, Warm, Midnight Luxe | Rainbow, Southern Roots, Code Gremlin, Daisy Dusk, Emo Phase |
 
 Each theme controls colors, typography, card styles, and optional effects.
 

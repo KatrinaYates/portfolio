@@ -4,14 +4,12 @@ Quick reference for all theme customization options in `data/themes.ts`.
 
 ## Available Themes
 
-### Professional (5)
+### Professional (3)
 
 | Theme | Emoji | Light/Dark | Card Style | Text Stroke | Description |
 |-------|-------|------------|------------|-------------|-------------|
 | The Gazette | 📰 | Light | flat | none | Typewriter, ink, editorial |
 | Warm | ☀️ | Light | flat | none | Cozy vintage warmth |
-| Forest | 🌿 | Dark | flat | none | Mossy, earthy, calm |
-| Cyber Neon | 🧬 | Dark | neon | none | Hyperfuture, synth energy |
 | Midnight Luxe | 🥂 | Dark | glow | none | Black-tie, gold foil |
 
 ### Creative (5)
